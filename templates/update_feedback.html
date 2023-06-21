@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Feedback{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    <div class="mb-3">
+        {{ form.hidden_tag() }}
+        {% for field in form
+        if field.widget.input_type != 'hidden' %}
+        <span>
+            {{field.label(class_='form-label')}}
+            {{field(class_='form-control')}}
+        </span>
+        <div>
+            {% for errors in field.errors %}
+            {{errors}}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <a class='btn btn-lg btn-danger' href="/users/{{user.username}}">Cancel</a>
+    <button class='btn btn-lg btn-success'>Edit</button>
+</form>
+
+{% endblock %}

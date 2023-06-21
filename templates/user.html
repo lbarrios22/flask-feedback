@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block title %}Viewing {{user.first_name}}'s page {%
+endblock %} {% block content %}
+
+<div
+    class="card"
+    style="width: 18rem">
+    <div class="card-body">
+        <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+            Username - {{user.username}}
+        </h6>
+        <ul class="list-group list-group-flush my-4">
+            Email
+            <li class="list-group-item">{{user.email}}</li>
+            {% if not feedbacks %}
+            Feedback:
+            <div class="my-1">
+                <p><b>You have no feedbacks</b></p>
+            </div>
+            {% else %}
+            Feedback: {% for feedback in feedbacks %}
+            <span class="my-1">
+                <b>Title</b>
+                - {{feedback.title}}
+            </span>
+            <div class="ps-3">
+                <b>Feedback</b>
+                - {{feedback.content}}
+            </div>
+            <div class='my-3'>
+                <a
+                    href="/feedback/{{feedback.id}}/update"
+                    class="btn btn-sm btn-success">
+                    Update
+                </a>
+                <form
+                    style="display: inline"
+                    method="POST">
+                    <a
+                        href="/feedback/{{feedback.id}}/delete"
+                        class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+                </form>
+                {% endfor %}
+                {% endif %}
+            </ul>
+            <a
+                class="btn btn-primary"
+                href="/users/{{user.username}}/feedback/add">
+                Add
+            </a>
+        </div>
+        <form class='d-flex justify-content-center' method="POST">
+            <a
+                class='text-danger'
+                href="/users/{{user.username}}/delete">Delete
+                User?</a>
+        </form>
+    </div>
+
+    {% endblock %}

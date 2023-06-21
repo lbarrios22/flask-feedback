@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.0/cosmo/bootstrap.min.css">
+        <title>{% block title %}Feedback App{% endblock %}</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Flask Feedback</a>
+                {% if session['user'] %}
+                <span class="d-flex">
+                    <form class='navbar-brand' method="POST">
+                        <a href="/logout" class="navbar-brand">Logout</a>
+                    </form>
+                        <a href="/users/{{session['user']}}" class='navbar-brand'>View Profile</a>
+                    </span>
+                    {% else %}
+                    <span class="d-flex">
+                        <a href="/login" class="navbar-brand">Login</a>
+                        <a href="/register" class='navbar-brand'>Register</a>
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+            {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}}">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        <div class="container-fluid my-5 d-flex justify-content-center">
+            {% block content %} {% endblock %}
+        </div>
+    </body>
+</html>
