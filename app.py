@@ -41,9 +41,10 @@ def register():
         except IntegrityError as error:
             if 'username' in str(error):
                 flash('Username taken, please try again', 'danger')
+                return render_template('register.html', form=form)
             if 'email' in str(error):
                 flash('Email taken, please try again', 'danger')
-            return render_template('register.html', form=form)
+                return render_template('register.html', form=form)
 
         flash('Account created!', 'success')
         session['user'] = user.username
@@ -66,7 +67,7 @@ def login():
         user = User.authenticate(username=username, password=password)
 
         if user:
-            flash('Welcome back')
+            flash(f'Welcome back, {user.first_name}!', 'success')
             session['user'] = user.username
             return redirect(f'/users/{user.username}')
         else:
